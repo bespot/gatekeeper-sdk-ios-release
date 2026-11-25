@@ -20,12 +20,12 @@ See our [documentation](https://gatekeeper.docs.bespot.com/overview/features/) f
 You can use [Swift Package Manager](https://github.com/swiftlang/swift-package-manager) to install *AntifraudSDK* following the [tutorial by Apple](https://developer.apple.com/documentation/xcode/adding-package-dependencies-to-your-app).
 
 1. In Xcode, select `File` -> `Add Package Dependencies...`
-2. Enter [https://github.com/bespot/antifraud-sdk-ios-release.git](https://github.com/bespot/antifraud-sdk-ios-release.git)
+2. Enter [https://github.com/bespot/gatekeeper-sdk-ios-release.git](https://github.com/bespot/gatekeeper-sdk-ios-release.git)
 
 or you can add the following dependency to your `Package.swift`:
 
 ```
-.package(url: "https://github.com/bespot/antifraud-sdk-ios-release.git", exact: "1.2.2")
+.package(url: "https://github.com/bespot/gatekeeper-sdk-ios-release.git", exact: "1.2.2")
 ```
 
 ### Install with CocoaPods
@@ -42,7 +42,7 @@ target '[Your app]' do
   use_frameworks!
 
   # AntifraudSDK framework
-  pod 'AntifraudSDK', :git => 'https://github.com/bespot/antifraud-sdk-ios-release', :tag => '1.2.2'
+  pod 'AntifraudSDK', :git => 'https://github.com/bespot/gatekeeper-sdk-ios-release', :tag => '1.2.2'
 
   # Other CocoaPods libraries/frameworks you may use...
 
@@ -316,7 +316,7 @@ For Xcode 15+, after creating the archive file and select Distribute App button,
 
 ## Support
 
-We use [Github](https://github.com/bespot/antifraud-sdk-ios-release/issues) issues to track bugs and enhancements.
+We use [Github](https://github.com/bespot/gatekeeper-sdk-ios-release/issues) issues to track bugs and enhancements.
 
 - If you find a bug please fill out an issue report. Provide as much information as possible.
 - If you think of a great idea please fill out an issue as a proposal for your idea.

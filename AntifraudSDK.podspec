@@ -6,7 +6,7 @@ Pod::Spec.new do |spec|
   spec.description  = <<-DESC
   Bespot SAFE is a highly customisable online-fraud prevention solution that detects suspicious activities is the dependency in mobile and web applications.
                    DESC
-  spec.homepage     = "https://github.com/bespot/antifraud-sdk-ios-release"
+  spec.homepage     = "https://github.com/bespot/gatekeeper-sdk-ios-release"
   spec.license      = "MIT"
   spec.authors            = { "Konstantinos Dimitros" => "k.dimitros@bespot.com", "Vangelis Spyrou" => "e.spirou@bespot.com" }
   spec.platform = :ios, "15.0"
