@@ -1,6 +1,6 @@
 # Bespot Gatekeeper iOS SDK
 
-[![VERSION](https://img.shields.io/badge/VERSION-1.2.1-green)](#)
+[![VERSION](https://img.shields.io/badge/VERSION-1.2.2-green)](#)
 [![Swift Version][swift-image]][swift-url]
 
 Bespot Gatekeeper is a highly customizable fraud prevention and geolocation verification platform for mobile and web applications. It verifies user locations, detects device integrity issues, and monitors network connections to help organizations—particularly in the iGaming, Media Streaming, and Financial Services industries—comply with regulations and protect digital transactions from fraud.
@@ -25,7 +25,7 @@ You can use [Swift Package Manager](https://github.com/swiftlang/swift-package-m
 or you can add the following dependency to your `Package.swift`:
 
 ```
-.package(url: "https://github.com/bespot/antifraud-sdk-ios-release.git", exact: "1.2.1")
+.package(url: "https://github.com/bespot/antifraud-sdk-ios-release.git", exact: "1.2.2")
 ```
 
 ### Install with CocoaPods
@@ -42,7 +42,7 @@ target '[Your app]' do
   use_frameworks!
 
   # AntifraudSDK framework
-  pod 'AntifraudSDK', :git => 'https://github.com/bespot/antifraud-sdk-ios-release', :tag => '1.2.1'
+  pod 'AntifraudSDK', :git => 'https://github.com/bespot/antifraud-sdk-ios-release', :tag => '1.2.2'
 
   # Other CocoaPods libraries/frameworks you may use...
 
@@ -94,6 +94,82 @@ From [Apple developer documentation](https://developer.apple.com/documentation/c
 Provide the following key along with a usage description string in your app's `Info.plist` file:
 
 - [NSLocationWhenInUseUsageDescription](https://developer.apple.com/documentation/bundleresources/information_property_list/nslocationwheninuseusagedescription)
+
+#### URL schemes for installed-apps checks
+Starting with version 1.2.2, AntifraudSDK can detect installed **VPN apps** and **competitor apps**. It does this by calling [`canOpenURL(_:)`](https://developer.apple.com/documentation/uikit/uiapplication/canopenurl(_:)) for the URL schemes that come from the server configuration.
+
+iOS only answers `canOpenURL(_:)` for schemes that the **host app** declares under the `LSApplicationQueriesSchemes` key of its own `Info.plist`. The list inside `AntifraudSDK.xcframework` is **not** read by iOS, so you have to copy the schemes into your app's `Info.plist` yourself.
+
+AntifraudSDK only probes the configured schemes that your app also declares (matching is case-insensitive). An app whose scheme you do not declare can never be detected. If your app declares none of the configured schemes, nothing is probed and the check result carries the error `NoCheckableSchemesFailure`.
+
+The schemes come in two lists, one for each check. Add only the lists for the checks enabled for your application. All entries go into a single `LSApplicationQueriesSchemes` array in your app's `Info.plist`. If your app has no such array yet, create it:
+
+```xml
+<key>LSApplicationQueriesSchemes</key>
+<array>
+	<!-- Paste the entries of the lists below here -->
+</array>
+```
+
+If you already have an `LSApplicationQueriesSchemes` array, add the entries to it. Do not add a second `LSApplicationQueriesSchemes` key.
+
+##### VPN apps (20 entries)
+
+```xml
+	<string>nordvpn</string>
+	<string>protonvpn</string>
+	<string>surfshark</string>
+	<string>supervpn</string>
+	<string>xvpn</string>
+	<string>cyberghost</string>
+	<string>expressvpn</string>
+	<string>rusvpn</string>
+	<string>tbear</string>
+	<string>turbovpn</string>
+	<string>privateinternetaccess</string>
+	<string>piavpn</string>
+	<string>hotspotshield</string>
+	<string>com.windscribe</string>
+	<string>com.cloudflare.1dot1dot1dot1</string>
+	<string>adguardvpn</string>
+	<string>adguard-vpn</string>
+	<string>ipvanishvpn</string>
+	<string>psiphon</string>
+	<string>purevpn</string>
+```
+
+##### Competitor apps (17 entries)
+
+```xml
+	<string>stoiximan-log</string>
+	<string>novibetApp</string>
+	<string>poker-ipoker-sn</string>
+	<string>com.bet365.bet365Wrapper</string>
+	<string>com.bet365.bet365GamesApp</string>
+	<string>playapp</string>
+	<string>sbapp</string>
+	<string>bwingrcpt</string>
+	<string>bwingrcocos</string>
+	<string>grsuperbetsport</string>
+	<string>grsuperbetgames</string>
+	<string>com.Betsson.Greece.Casino</string>
+	<string>sbgr</string>
+	<string>sportingbetcocos</string>
+	<string>vbgr</string>
+	<string>vistabetcocos</string>
+	<string>fb1580118110050380</string>
+```
+
+The same lists ship in the `Info.plist` of each slice of `AntifraudSDK.xcframework`, so you can compare against them when upgrading the SDK.
+
+> [!IMPORTANT]
+>
+> Apple limits the number of entries in `LSApplicationQueriesSchemes` (see [`canOpenURL(_:)`](https://developer.apple.com/documentation/uikit/uiapplication/canopenurl(_:))):
+>
+> - Apps linked on or after iOS 15: at most **50** entries.
+> - Apps linked on or after iOS 27: at most **25** entries.
+>
+> Both lists together have 37 entries. Count them together with any schemes your app already declares. When you build with the iOS 27 SDK, both lists together exceed the limit, so add only the list for the check enabled for your application and keep the total within the limit.
 
 ### Initialization
 
