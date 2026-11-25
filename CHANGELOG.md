@@ -1,3 +1,9 @@
+# 1.2.2 (2026-11-25)
+
+### Added
+- VPN apps detection: detects installed VPN apps through their URL schemes.
+- Competitor apps detection: detects installed competitor apps through their URL schemes.
+
 # 1.2.1 (2026-08-18)
 
 ### Added
